@@ -3070,7 +3070,7 @@ export function QualityIndicators() {
               {qualitySpecificMetrics.protocolosComQT.percentual}%
             </div>
             <p className="text-sm text-[#666] mt-2">
-              dos protocolos têm queixas técnicas
+              dos protocolos possuem Queixas Técnicas
             </p>
             
             <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
@@ -3110,32 +3110,47 @@ export function QualityIndicators() {
             
             <div className="flex gap-2 mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
               <div className="text-center flex-1 min-w-0">
-                <div className="text-lg font-bold" style={{ color: '#FFA801', fontFamily: 'Inter, sans-serif' }}>
-                  {qualitySpecificMetrics.casosAndamento.revisao}
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <Eye className="h-4 w-4" style={{ color: '#FFA801' }} />
+                  <div className="text-lg font-bold" style={{ color: '#FFA801', fontFamily: 'Inter, sans-serif' }}>
+                    {qualitySpecificMetrics.casosAndamento.revisao}
+                  </div>
                 </div>
                 <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Revisão</div>
               </div>
               <div className="text-center flex-1 min-w-0">
-                <div className="text-lg font-bold" style={{ color: '#E17055', fontFamily: 'Inter, sans-serif' }}>
-                  {qualitySpecificMetrics.casosAndamento.rejeitado}
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <XCircle className="h-4 w-4" style={{ color: '#E17055' }} />
+                  <div className="text-lg font-bold" style={{ color: '#E17055', fontFamily: 'Inter, sans-serif' }}>
+                    {qualitySpecificMetrics.casosAndamento.rejeitado}
+                  </div>
                 </div>
                 <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Rejeitado</div>
               </div>
               <div className="text-center flex-1 min-w-0">
-                <div className="text-lg font-bold" style={{ color: '#6C5CE7', fontFamily: 'Inter, sans-serif' }}>
-                  {qualitySpecificMetrics.casosAndamento.retornado}
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <RotateCcw className="h-4 w-4" style={{ color: '#6C5CE7' }} />
+                  <div className="text-lg font-bold" style={{ color: '#6C5CE7', fontFamily: 'Inter, sans-serif' }}>
+                    {qualitySpecificMetrics.casosAndamento.retornado}
+                  </div>
                 </div>
                 <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Retornado</div>
               </div>
               <div className="text-center flex-1 min-w-0">
-                <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
-                  {qualitySpecificMetrics.casosAndamento.qualidade}
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <Shield className="h-4 w-4" style={{ color: '#0984E3' }} />
+                  <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
+                    {qualitySpecificMetrics.casosAndamento.qualidade}
+                  </div>
                 </div>
                 <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Qualidade</div>
               </div>
               <div className="text-center flex-1 min-w-0">
-                <div className="text-lg font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
-                  {qualitySpecificMetrics.casosAndamento.emAnalise}
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <Loader className="h-4 w-4" style={{ color: '#00B894' }} />
+                  <div className="text-lg font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+                    {qualitySpecificMetrics.casosAndamento.emAnalise}
+                  </div>
                 </div>
                 <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Em Análise</div>
               </div>
