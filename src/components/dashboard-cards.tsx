@@ -62,7 +62,8 @@ import {
   ChevronDown,
   Search,
   DollarSign,
-  ClipboardCheck
+  ClipboardCheck,
+  ClipboardList
 } from 'lucide-react';
 
 const COLORS = ['#26B99D', '#20A085', '#1A8A73', '#147A65', '#0F6B5A'];
@@ -3053,71 +3054,111 @@ export function QualityIndicators() {
         </div>
 
       {/* Cards Principais - Queixas Técnicas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 1. % de Protocolos com Queixa Técnica */}
-        <Card className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-300" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
+        <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.1s both' }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
-              % Protocolos com QT
+              Protocolos com Queixas Técnicas
             </CardTitle>
-            <div className="relative">
-              <FlaskConical className="h-12 w-12 absolute -top-2 -right-2" style={{ color: '#00B894', opacity: 0.2 }} />
-              <FlaskConical className="h-6 w-6 relative z-10" style={{ color: '#00B894' }} />
+            <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
+              <ClipboardList className="h-[18px] w-[18px] text-[#00B894]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+            <div className="text-3xl text-[#333]">
               {qualitySpecificMetrics.protocolosComQT.percentual}%
             </div>
-            <p className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
-              {qualitySpecificMetrics.protocolosComQT.protocolos_com_qt} de {qualitySpecificMetrics.protocolosComQT.protocolos_totais} protocolos
+            <p className="text-sm text-[#666] mt-2">
+              dos protocolos têm queixas técnicas
             </p>
+            
+            <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
+              <div className="text-center">
+                <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.protocolosComQT.protocolos_com_qt}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Com Queixas Técnicas</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.protocolosComQT.protocolos_totais}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Total</div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
         {/* 2. Casos em Andamento */}
-        <Card className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-300" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
+        <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
-              Casos em Andamento
+              Queixas Técnicas em Andamento
             </CardTitle>
-            <div className="relative">
-              <Activity className="h-12 w-12 absolute -top-2 -right-2" style={{ color: '#0984E3', opacity: 0.2 }} />
-              <Activity className="h-6 w-6 relative z-10" style={{ color: '#0984E3' }} />
+            <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
+              <Activity className="h-[18px] w-[18px] text-[#00B894]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
+            <div className="text-3xl text-[#333]">
               {qualitySpecificMetrics.casosAndamento.total}
             </div>
-            <p className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
-              casos ativos em análise
+            <p className="text-sm text-[#666] mt-2">
+              Casos ativos
             </p>
-            <div className="mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
-              <p className="text-xs font-medium" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
-                + {qualitySpecificMetrics.casosAndamento.concluidos_periodo} concluídos neste período
-              </p>
+            
+            <div className="flex gap-2 mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
+              <div className="text-center flex-1 min-w-0">
+                <div className="text-lg font-bold" style={{ color: '#FFA801', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.casosAndamento.revisao}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Revisão</div>
+              </div>
+              <div className="text-center flex-1 min-w-0">
+                <div className="text-lg font-bold" style={{ color: '#E17055', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.casosAndamento.rejeitado}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Rejeitado</div>
+              </div>
+              <div className="text-center flex-1 min-w-0">
+                <div className="text-lg font-bold" style={{ color: '#6C5CE7', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.casosAndamento.retornado}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Retornado</div>
+              </div>
+              <div className="text-center flex-1 min-w-0">
+                <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.casosAndamento.qualidade}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Qualidade</div>
+              </div>
+              <div className="text-center flex-1 min-w-0">
+                <div className="text-lg font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+                  {qualitySpecificMetrics.casosAndamento.emAnalise}
+                </div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Em Análise</div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         {/* 3. Tempo Médio por Etapa - Card Principal */}
-        <Card className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 md:col-span-2" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
+        <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.3s both' }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
               Tempo Médio por Etapa do Fluxo
             </CardTitle>
-            <div className="relative">
-              <Timer className="h-12 w-12 absolute -top-2 -right-2" style={{ color: '#00B894', opacity: 0.2 }} />
-              <Timer className="h-6 w-6 relative z-10" style={{ color: '#00B894' }} />
+            <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
+              <Timer className="h-[18px] w-[18px] text-[#00B894]" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+            <div className="text-3xl text-[#333]">
               {qualitySpecificMetrics.temposPorEtapa.tempo_total_lab} dias
             </div>
-            <p className="text-xs mt-1 mb-3" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
-              tempo total médio no fluxo de qualidade
+            <p className="text-sm text-[#666] mt-2">
+              Tempo total médio no fluxo de qualidade
             </p>
             
             <div className="grid grid-cols-3 gap-3 mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
@@ -3125,19 +3166,19 @@ export function QualityIndicators() {
                 <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
                   {qualitySpecificMetrics.temposPorEtapa.operacao_para_lab}d
                 </div>
-                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Operação → Lab</div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Revisão → Qualidade</div>
               </div>
               <div className="text-center">
                 <div className="text-lg font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
                   {qualitySpecificMetrics.temposPorEtapa.qualidade_para_analise}d
                 </div>
-                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Qualidade → Análise</div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Qualidade → Em Análise</div>
               </div>
               <div className="text-center">
                 <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
                   {qualitySpecificMetrics.temposPorEtapa.analise_para_conclusao}d
                 </div>
-                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Análise → Conclusão</div>
+                <div className="text-xs mt-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Em Análise → Concluído</div>
               </div>
             </div>
           </CardContent>
@@ -3575,148 +3616,6 @@ export function QualityIndicators() {
 
       {/* Relação Produto × Motivo de Queixa Técnica - Com Filtros */}
       <ProductComplaintAnalysis />
-
-      {/* Status dos Casos de Qualidade - Horizontal Bar Chart (Tela inteira) */}
-      <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
-        <CardHeader>
-          <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
-            Distribuição dos Casos por Status
-          </CardTitle>
-          <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
-            Carga de trabalho por status - Sistema SAC (SIN Solution)
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-white rounded-xl p-6 border" style={{ borderColor: '#EAEAEA', borderRadius: '12px' }}>
-            {/* Horizontal Bar Chart */}
-            <div className="space-y-4">
-              {qualitySpecificMetrics.statusCasosQualidade
-                .filter(s => s.status !== 'Concluído')
-                .map((item, index) => {
-                  // Cores específicas para cada status - Paleta SIN Solution
-                  const statusColors = {
-                    'Aberto': '#FFD166',
-                    'Revisão': '#FFA801',
-                    'Rejeitado': '#E17055',
-                    'Retornado': '#6C5CE7',
-                    'Qualidade': '#0984E3',
-                    'Em Análise': '#00B894'
-                  };
-                  const barColor = statusColors[item.status] || '#888';
-                  
-                  // Ícones específicos para cada status
-                  const statusIcons = {
-                    'Aberto': Circle,
-                    'Revisão': Eye,
-                    'Rejeitado': XCircle,
-                    'Retornado': RotateCcw,
-                    'Qualidade': Shield,
-                    'Em Análise': Loader
-                  };
-                  const IconComponent = statusIcons[item.status] || Circle;
-                  
-                  // Calcular largura da barra proporcional
-                  const maxValue = Math.max(...qualitySpecificMetrics.statusCasosQualidade.filter(s => s.status !== 'Concluído').map(s => s.quantidade));
-                  const barWidth = (item.quantidade / maxValue) * 100;
-                  
-                  return (
-                    <div 
-                      key={item.status} 
-                      className="group"
-                      style={{
-                        animation: `barSlideIn 0.7s ease-out ${index * 0.1}s both`
-                      }}
-                    >
-                      {/* Label e Valor */}
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center space-x-3">
-                          <IconComponent 
-                            className="h-4 w-4" 
-                            style={{ color: barColor }}
-                          />
-                          <span 
-                            className="text-sm" 
-                            style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}
-                          >
-                            {item.status}
-                          </span>
-                        </div>
-                        <span 
-                          className="text-sm font-semibold" 
-                          style={{ color: barColor, fontFamily: 'Inter, sans-serif' }}
-                        >
-                          {item.quantidade}
-                        </span>
-                      </div>
-                      
-                      {/* Barra Container */}
-                      <div className="relative w-full h-3 bg-gradient-to-r from-[#F9FAFB] to-[#EAEAEA] overflow-hidden" style={{ borderRadius: '4px' }}>
-                        {/* Barra de Progresso com animação */}
-                        <div
-                          className="absolute top-0 left-0 h-full transition-all duration-300 group-hover:opacity-90"
-                          style={{
-                            width: `${barWidth}%`,
-                            backgroundColor: barColor,
-                            borderRadius: '4px',
-                            animation: `barGrowth 1s ease-out ${index * 0.1}s both`
-                          }}
-                        >
-                          {/* Tooltip no Hover */}
-                          <div 
-                            className="absolute -top-14 left-1/2 -translate-x-1/2 px-3 py-2 bg-white rounded-lg shadow-xl border opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10"
-                            style={{ borderColor: '#EAEAEA', fontFamily: 'Inter, sans-serif' }}
-                          >
-                            <div className="text-xs font-semibold" style={{ color: '#222' }}>
-                              {item.status} — {item.quantidade} casos
-                            </div>
-                            <div className="text-xs" style={{ color: '#666' }}>
-                              {item.percentual}% do total
-                            </div>
-                            {/* Seta do tooltip */}
-                            <div 
-                              className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"
-                              style={{ marginTop: '-1px' }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-            
-            {/* Rodapé */}
-            <div className="mt-6 pt-4 border-t text-center" style={{ borderColor: '#EAEAEA' }}>
-              <span 
-                className="text-sm font-semibold" 
-                style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}
-              >
-                Concluídos no período: {qualitySpecificMetrics.casosAndamento.concluidos_periodo} casos
-              </span>
-            </div>
-          </div>
-          
-          {/* Animações CSS */}
-          <style>{`
-            @keyframes barSlideIn {
-              from {
-                opacity: 0;
-                transform: translateY(10px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-            
-            @keyframes barGrowth {
-              from {
-                width: 0%;
-              }
-            }
-          `}</style>
-        </CardContent>
-      </Card>
       </div>
 
       {/* 4️⃣ SEÇÃO: EVOLUÇÃO E TENDÊNCIAS */}
