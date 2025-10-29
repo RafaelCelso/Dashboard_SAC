@@ -156,8 +156,6 @@ const advancedRecurrenceData = {
   taxaReincidencia: 10.3,
   trendReincidencia: '+2.1%',
   suspeitaFraude: 23,
-  clustersGeograficos: 12,
-  gruposNomesSimilares: 18,
   
   // Tab 1: Identificadores
   identificadores: {
