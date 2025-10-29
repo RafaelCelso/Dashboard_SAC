@@ -519,7 +519,6 @@ const CustomTooltip = ({ active, payload, label }) => {
   }
   return null;
 };
-
 // Componente principal da aba Reincidência e Risco
 export function RecurrenceRiskIndicators() {
   const [activeTab, setActiveTab] = React.useState('identificadores');
@@ -536,7 +535,7 @@ export function RecurrenceRiskIndicators() {
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FFA726] via-[#FB8C00] to-[#F57C00]"></div>
           <CardHeader style={{ padding: '20px' }}>
             <div className="flex items-center justify-between mb-2">
-              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
                 Taxa de Reincidência Geral
               </CardTitle>
               <div className="w-10 h-10 bg-gradient-to-br from-[#FB8C00] to-[#F57C00] rounded-xl flex items-center justify-center">
@@ -568,7 +567,7 @@ export function RecurrenceRiskIndicators() {
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-rose-500"></div>
           <CardHeader style={{ padding: '20px' }}>
             <div className="flex items-center justify-between mb-2">
-              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
                 Casos em Monitoramento
               </CardTitle>
               <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl flex items-center justify-center">
@@ -597,7 +596,7 @@ export function RecurrenceRiskIndicators() {
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
           <CardHeader style={{ padding: '20px' }}>
             <div className="flex items-center justify-between mb-2">
-              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
                 Clusters Geográficos
               </CardTitle>
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
@@ -625,7 +624,7 @@ export function RecurrenceRiskIndicators() {
       {/* 🧭 SEÇÃO 2 — ANÁLISE MULTIDIMENSIONAL (Tabs) */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader style={{ padding: '24px', paddingBottom: '16px' }}>
-          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
             Análise Multidimensional de Reincidência
           </CardTitle>
           <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
@@ -1206,7 +1205,7 @@ export function RecurrenceRiskIndicators() {
               <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <div>
-              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
                 Impacto e Ações Recomendadas
               </CardTitle>
               <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
@@ -1239,7 +1238,6 @@ export function RecurrenceRiskIndicators() {
     </div>
   );
 }
-
 // Componente de Análise Avançada de Reincidência e Risco (para uso interno na aba Operacional - REMOVIDO)
 function AdvancedRecurrenceRiskAnalysis() {
   const [activeTab, setActiveTab] = React.useState('identificadores');
@@ -1267,7 +1265,7 @@ function AdvancedRecurrenceRiskAnalysis() {
               <AlertTriangle className="h-6 w-6 text-white" />
             </div>
             <div>
-              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+              <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
                 Análise de Reincidência e Risco
               </CardTitle>
               <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
@@ -1924,7 +1922,6 @@ function AdvancedRecurrenceRiskAnalysis() {
     </Card>
   );
 }
-
 export function OperationalIndicators() {
   const [showAllProducts, setShowAllProducts] = React.useState(false);
   const [showAllReasons, setShowAllReasons] = React.useState(false);
@@ -1949,7 +1946,7 @@ export function OperationalIndicators() {
           {/* Total de Contatos */}
           <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.1s both' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>Total de Contatos</CardTitle>
+              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>Total de Contatos</CardTitle>
               <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
                 <Users className="h-[18px] w-[18px] text-[#00B894]" />
               </div>
@@ -1968,7 +1965,7 @@ export function OperationalIndicators() {
           {/* Taxa de Conclusão */}
           <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>Taxa de Conclusão dos Protocolos</CardTitle>
+              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>Taxa de Conclusão dos Protocolos</CardTitle>
               <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
                 <ClipboardCheck className="h-[18px] w-[18px] text-[#00B894]" />
               </div>
@@ -1986,7 +1983,7 @@ export function OperationalIndicators() {
           {/* Canal mais utilizado */}
           <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.3s both' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>Canal mais utilizado</CardTitle>
+              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>Canal mais utilizado</CardTitle>
               <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
                 <Phone className="h-[18px] w-[18px] text-[#00B894]" />
               </div>
@@ -2004,7 +2001,7 @@ export function OperationalIndicators() {
           {/* Taxa de Primeiro Contato Resolvido */}
           <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.4s both' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>Primeiro Contato Resolvido</CardTitle>
+              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>Primeiro Contato Resolvido</CardTitle>
               <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
                 <CheckCircle className="h-[18px] w-[18px] text-[#00B894]" />
               </div>
@@ -2600,7 +2597,6 @@ export function OperationalIndicators() {
     </div>
   );
 }
-
 // Dados específicos para Qualidade
 const qualitySpecificMetrics = {
   protocolosComQT: {
@@ -3038,7 +3034,6 @@ function ProductComplaintAnalysis() {
     </Card>
   );
 }
-
 // Componente específico para a área de Qualidade - Foco em Queixas Técnicas
 export function QualityIndicators() {
   const [hoveredTooltip, setHoveredTooltip] = React.useState<'produto' | 'financeiro' | null>(null);
@@ -3834,7 +3829,6 @@ export function QualityIndicators() {
           </h3>
           <div className="flex-1 h-px bg-[#F3F4F6]"></div>
         </div>
-
       {/* Produtos Mais Associados a Queixas */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader>
@@ -4483,7 +4477,6 @@ export function GestationIndicators() {
     </div>
   );
 }
-
 export function CustomerExperienceIndicators() {
   // Dados para NPS e CSAT com evolução temporal
   const satisfactionTrend = [
@@ -4902,7 +4895,6 @@ export function CustomerExperienceIndicators() {
     </div>
   );
 }
-
 export function ManagerialInsights() {
   // Dados estratégicos para análise gerencial
   const productContactsTrend = [
