@@ -2822,10 +2822,10 @@ function ProductComplaintAnalysis() {
   return (
     <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
       <CardHeader>
-        <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+        <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
           Correlação Produto × Motivo de Queixa Técnica
         </CardTitle>
-        <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+        <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
           Compare os principais produtos e motivos de falha — visão geral e detalhamento por tipo de embalagem
         </CardDescription>
       </CardHeader>
@@ -3045,8 +3045,8 @@ export function QualityIndicators() {
       <div className="space-y-6">
         {/* Título da Seção */}
         <div className="flex items-center space-x-3">
-          <div className="h-1 w-1 bg-[#00B894] rounded-full"></div>
-          <h3 className="text-[#00B894] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
+          <div className="h-1 w-1 bg-[#0984E3] rounded-full"></div>
+          <h3 className="text-[#0984E3] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
             Indicadores Principais e Performance
           </h3>
           <div className="flex-1 h-px bg-[#F3F4F6]"></div>
@@ -3057,7 +3057,7 @@ export function QualityIndicators() {
         {/* 1. % de Protocolos com Queixa Técnica */}
         <Card className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-300" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-            <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+            <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
               % Protocolos com QT
             </CardTitle>
             <div className="relative">
@@ -3078,7 +3078,7 @@ export function QualityIndicators() {
         {/* 2. Casos em Andamento */}
         <Card className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-300" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-            <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+            <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
               Casos em Andamento
             </CardTitle>
             <div className="relative">
@@ -3104,7 +3104,7 @@ export function QualityIndicators() {
         {/* 3. Tempo Médio por Etapa - Card Principal */}
         <Card className="bg-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 md:col-span-2" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-            <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+            <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
               Tempo Médio por Etapa do Fluxo
             </CardTitle>
             <div className="relative">
@@ -3149,8 +3149,8 @@ export function QualityIndicators() {
       <div className="space-y-6">
         {/* Título da Seção */}
         <div className="flex items-center space-x-3">
-          <div className="h-1 w-1 bg-[#00B894] rounded-full"></div>
-          <h3 className="text-[#00B894] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
+          <div className="h-1 w-1 bg-[#0984E3] rounded-full"></div>
+          <h3 className="text-[#0984E3] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
             Ressarcimento e Impacto Financeiro
           </h3>
           <div className="flex-1 h-px bg-[#F3F4F6]"></div>
@@ -3159,10 +3159,10 @@ export function QualityIndicators() {
       {/* Queixas Técnicas com Ressarcimento */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader>
-          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+          <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
             Queixas Técnicas com Ressarcimento
           </CardTitle>
-          <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+          <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
             Análise detalhada de queixas técnicas que resultaram em ressarcimento por tipo
           </CardDescription>
         </CardHeader>
@@ -3384,8 +3384,8 @@ export function QualityIndicators() {
       <div className="space-y-6">
         {/* Título da Seção */}
         <div className="flex items-center space-x-3">
-          <div className="h-1 w-1 bg-[#00B894] rounded-full"></div>
-          <h3 className="text-[#00B894] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
+          <div className="h-1 w-1 bg-[#0984E3] rounded-full"></div>
+          <h3 className="text-[#0984E3] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
             Análise de Motivos e Causas
           </h3>
           <div className="flex-1 h-px bg-[#F3F4F6]"></div>
@@ -3394,10 +3394,10 @@ export function QualityIndicators() {
       {/* Motivos de Queixas Técnicas - Seção com Título */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader>
-          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+          <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
             Motivos de Queixas Técnicas
           </CardTitle>
-          <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+          <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
             Análise separada por tipo de embalagem
           </CardDescription>
         </CardHeader>
@@ -3579,10 +3579,10 @@ export function QualityIndicators() {
       {/* Status dos Casos de Qualidade - Horizontal Bar Chart (Tela inteira) */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader>
-          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+          <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
             Distribuição dos Casos por Status
           </CardTitle>
-          <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+          <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
             Carga de trabalho por status - Sistema SAC (SIN Solution)
           </CardDescription>
         </CardHeader>
@@ -3723,8 +3723,8 @@ export function QualityIndicators() {
       <div className="space-y-6">
         {/* Título da Seção */}
         <div className="flex items-center space-x-3">
-          <div className="h-1 w-1 bg-[#00B894] rounded-full"></div>
-          <h3 className="text-[#00B894] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
+          <div className="h-1 w-1 bg-[#0984E3] rounded-full"></div>
+          <h3 className="text-[#0984E3] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
             Evolução e Tendências
           </h3>
           <div className="flex-1 h-px bg-[#F3F4F6]"></div>
@@ -3733,10 +3733,10 @@ export function QualityIndicators() {
       {/* Evolução Mensal de Queixas Técnicas */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader>
-          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+          <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
             Evolução Mensal de Queixas Técnicas
           </CardTitle>
-          <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+          <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
             Tendência de novos casos criados - Base: data de criação do caso
           </CardDescription>
         </CardHeader>
@@ -3823,8 +3823,8 @@ export function QualityIndicators() {
       <div className="space-y-6">
         {/* Título da Seção */}
         <div className="flex items-center space-x-3">
-          <div className="h-1 w-1 bg-[#00B894] rounded-full"></div>
-          <h3 className="text-[#00B894] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
+          <div className="h-1 w-1 bg-[#0984E3] rounded-full"></div>
+          <h3 className="text-[#0984E3] tracking-wide uppercase" style={{ fontSize: '16px', letterSpacing: '0.05em' }}>
             Produtos Mais Impactados
           </h3>
           <div className="flex-1 h-px bg-[#F3F4F6]"></div>
@@ -3832,10 +3832,10 @@ export function QualityIndicators() {
       {/* Produtos Mais Associados a Queixas */}
       <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)' }}>
         <CardHeader>
-          <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
+          <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
             Produtos com Mais Queixas Técnicas
           </CardTitle>
-          <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+          <CardDescription style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
             Ranking de produtos por volume de queixas técnicas para priorização
           </CardDescription>
         </CardHeader>
