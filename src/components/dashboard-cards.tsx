@@ -1927,6 +1927,7 @@ function AdvancedRecurrenceRiskAnalysis() {
 
 export function OperationalIndicators() {
   const [showAllProducts, setShowAllProducts] = React.useState(false);
+  const [showAllReasons, setShowAllReasons] = React.useState(false);
   const [socialMediaExpanded, setSocialMediaExpanded] = React.useState(false);
   
   return (
@@ -1968,8 +1969,8 @@ export function OperationalIndicators() {
           <Card className="bg-white border-0 rounded-xl shadow-sm hover:shadow-md transition-all duration-300" style={{ animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>Taxa de Conclusão dos Protocolos</CardTitle>
-              <div className="w-12 h-12 bg-[#0984E3]/10 rounded-xl flex items-center justify-center">
-                <ClipboardCheck className="h-[18px] w-[18px] text-[#0984E3]" />
+              <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
+                <ClipboardCheck className="h-[18px] w-[18px] text-[#00B894]" />
               </div>
             </CardHeader>
             <CardContent>
@@ -2390,13 +2391,22 @@ export function OperationalIndicators() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top Motivos de Contato */}
           <Card className="bg-white border-0 rounded-xl" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.5s both' }}>
-            <CardHeader>
-              <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px' }}>
-                Top Motivos de Contato
-              </CardTitle>
-              <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
-                Principais razões para contato
-              </CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '20px', marginBottom: '8px' }}>
+                  Top Motivos de Contato
+                </CardTitle>
+                <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                  Principais razões para contato
+                </CardDescription>
+              </div>
+              <button
+                onClick={() => setShowAllReasons(!showAllReasons)}
+                className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                {showAllReasons ? '− ver menos' : '+ ver todos'}
+              </button>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -2410,7 +2420,7 @@ export function OperationalIndicators() {
                   <div className="flex-1"></div>
                 </div>
                 
-                {contactReasons.map((reason, index) => {
+                {contactReasons.slice(0, showAllReasons ? contactReasons.length : 3).map((reason, index) => {
                   // Cores específicas para cada motivo
                   const reasonColors = {
                     'Informações sobre Medicamentos': '#26B99D',
@@ -2438,10 +2448,9 @@ export function OperationalIndicators() {
                             animation: `slideInUp 0.5s ease-out ${index * 0.08}s both`
                           }}
                         >
-                          {/* Header: Ícone, Nome e Valores */}
+                          {/* Header: Nome e Valores */}
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center space-x-3">
-                              <FileText className="h-[18px] w-[18px]" style={{ color: barColor }} />
                               <span className="text-sm text-[#333]" style={{ fontFamily: 'Inter, sans-serif' }}>
                                 {reason.name}
                               </span>
@@ -2535,10 +2544,9 @@ export function OperationalIndicators() {
                             animation: `slideInUp 0.5s ease-out ${index * 0.08}s both`
                           }}
                         >
-                          {/* Header: Ícone, Nome e Valores */}
+                          {/* Header: Nome e Valores */}
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center space-x-3">
-                              <Package className="h-[18px] w-[18px]" style={{ color: barColor }} />
                               <span className="text-sm text-[#333]" style={{ fontFamily: 'Inter, sans-serif' }}>
                                 {product.name}
                               </span>
