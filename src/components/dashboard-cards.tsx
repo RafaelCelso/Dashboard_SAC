@@ -63,7 +63,8 @@ import {
   Search,
   DollarSign,
   ClipboardCheck,
-  ClipboardList
+  ClipboardList,
+  Clipboard
 } from 'lucide-react';
 
 const COLORS = ['#26B99D', '#20A085', '#1A8A73', '#147A65', '#0F6B5A'];
@@ -3096,8 +3097,9 @@ export function QualityIndicators() {
             <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
               Queixas Técnicas em Andamento
             </CardTitle>
-            <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
-              <Activity className="h-[18px] w-[18px] text-[#00B894]" />
+            <div className="w-12 h-12 bg-[#00B894]/10 rounded-xl flex items-center justify-center relative">
+              <Clipboard className="h-[18px] w-[18px] text-[#00B894]" />
+              <Clock className="h-3 w-3 absolute -bottom-1 -right-1" style={{ color: '#00B894' }} />
             </div>
           </CardHeader>
           <CardContent>
