@@ -3947,9 +3947,14 @@ export function QualityIndicators() {
             {/* Coluna 1 - Produtos com Mais Queixas Técnicas */}
             <div className="bg-white rounded-xl p-6 border" style={{ borderColor: '#EAEAEA', borderRadius: '12px' }}>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
-                  Produtos com Mais Queixas Técnicas
-                </h3>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
+                    <ClipboardList className="h-5 w-5 text-[#00B894]" />
+                  </div>
+                  <h3 className="text-sm font-semibold" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
+                    Produtos com Mais Queixas Técnicas
+                  </h3>
+                </div>
                 <button
                   onClick={() => setShowAllQueixas(!showAllQueixas)}
                   className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
