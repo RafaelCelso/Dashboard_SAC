@@ -64,7 +64,9 @@ import {
   DollarSign,
   ClipboardCheck,
   ClipboardList,
-  Clipboard
+  Clipboard,
+  ClipboardPenLine,
+  CornerDownLeft
 } from 'lucide-react';
 
 const COLORS = ['#26B99D', '#20A085', '#1A8A73', '#147A65', '#0F6B5A'];
@@ -485,6 +487,22 @@ const produtosCasos = [
   { produto: 'Metformina 850mg', queixaTecnica: 8, eventoAdverso: 3, gestacao: 2, total: 13 }
 ];
 
+const produtosMaisRessarcimentoProduto = [
+  { produto: 'Paracetamol 750mg', quantidade: 45, percentual: 40.2 },
+  { produto: 'Dipirona 1g', quantidade: 32, percentual: 28.6 },
+  { produto: 'Ibuprofeno 600mg', quantidade: 25, percentual: 22.3 },
+  { produto: 'Amoxicilina 875mg', quantidade: 18, percentual: 16.1 },
+  { produto: 'Losartana 50mg', quantidade: 14, percentual: 12.5 }
+];
+
+const produtosMaisRessarcimentoFinanceiro = [
+  { produto: 'Paracetamol 500mg', quantidade: 28, percentual: 37.3 },
+  { produto: 'Omeprazol 20mg', quantidade: 22, percentual: 29.3 },
+  { produto: 'Metformina 850mg', quantidade: 15, percentual: 20.0 },
+  { produto: 'Amoxicilina 875mg', quantidade: 10, percentual: 13.3 },
+  { produto: 'Dipirona 1g', quantidade: 8, percentual: 10.7 }
+];
+
 const statusCasos = [
   { name: 'Aberto', value: 20, color: '#ef4444' },
   { name: 'Em Análise', value: 45, color: '#f59e0b' },
@@ -601,8 +619,8 @@ export function RecurrenceRiskIndicators() {
               <CardTitle style={{ color: '#000', fontFamily: 'Inter, sans-serif', fontSize: '18px' }}>
                 Clusters Geográficos
               </CardTitle>
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                <MapPin className="h-5 w-5 text-white" />
+              <div className="w-10 h-10 bg-[#00B894]/10 rounded-xl flex items-center justify-center">
+                <MapPin className="h-5 w-5 text-[#00B894]" />
               </div>
             </div>
             <CardDescription style={{ color: '#666', fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
@@ -2404,7 +2422,7 @@ export function OperationalIndicators() {
                 className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
                 style={{ fontFamily: 'Inter, sans-serif' }}
               >
-                {showAllReasons ? '− ver menos' : '+ ver todos'}
+                {showAllReasons ? '− Ver Menos' : '+ Ver Mais'}
               </button>
             </CardHeader>
             <CardContent>
@@ -2500,7 +2518,7 @@ export function OperationalIndicators() {
                 className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
                 style={{ fontFamily: 'Inter, sans-serif' }}
               >
-                {showAllProducts ? '− ver menos' : '+ ver todos'}
+                {showAllProducts ? '− Ver Menos' : '+ Ver Mais'}
               </button>
             </CardHeader>
             <CardContent>
@@ -2776,7 +2794,21 @@ const qualitySpecificMetrics = {
       }
     ],
     valor_total_financeiro: 18750.00,
-    tendencia: '+8%'
+    tendencia: '+8%',
+    evolucaoMensal: [
+      { mes: 'Jan', total: 128, variacao: 0, produto: 77, financeiro: 51, percentualProduto: 60.2, percentualFinanceiro: 39.8 },
+      { mes: 'Fev', total: 132, variacao: 3.1, produto: 79, financeiro: 53, percentualProduto: 59.8, percentualFinanceiro: 40.2 },
+      { mes: 'Mar', total: 135, variacao: 2.3, produto: 81, financeiro: 54, percentualProduto: 60.0, percentualFinanceiro: 40.0 },
+      { mes: 'Abr', total: 139, variacao: 3.0, produto: 83, financeiro: 56, percentualProduto: 59.7, percentualFinanceiro: 40.3 },
+      { mes: 'Mai', total: 142, variacao: 2.2, produto: 85, financeiro: 57, percentualProduto: 59.9, percentualFinanceiro: 40.1 },
+      { mes: 'Jun', total: 145, variacao: 2.1, produto: 87, financeiro: 58, percentualProduto: 60.0, percentualFinanceiro: 40.0 },
+      { mes: 'Jul', total: 149, variacao: 2.8, produto: 89, financeiro: 60, percentualProduto: 59.7, percentualFinanceiro: 40.3 },
+      { mes: 'Ago', total: 153, variacao: 2.7, produto: 92, financeiro: 61, percentualProduto: 60.1, percentualFinanceiro: 39.9 },
+      { mes: 'Set', total: 158, variacao: 3.3, produto: 95, financeiro: 63, percentualProduto: 60.1, percentualFinanceiro: 39.9 },
+      { mes: 'Out', total: 164, variacao: 3.8, produto: 98, financeiro: 66, percentualProduto: 59.8, percentualFinanceiro: 40.2 },
+      { mes: 'Nov', total: 175, variacao: 6.7, produto: 105, financeiro: 70, percentualProduto: 60.0, percentualFinanceiro: 40.0 },
+      { mes: 'Dez', total: 187, variacao: 6.9, produto: 112, financeiro: 75, percentualProduto: 59.9, percentualFinanceiro: 40.1 }
+    ]
   }
 };
 
@@ -3039,6 +3071,10 @@ function ProductComplaintAnalysis() {
 // Componente específico para a área de Qualidade - Foco em Queixas Técnicas
 export function QualityIndicators() {
   const [hoveredTooltip, setHoveredTooltip] = React.useState<'produto' | 'financeiro' | null>(null);
+  const [hoveredMes, setHoveredMes] = React.useState<string | null>(null);
+  const [showAllQueixas, setShowAllQueixas] = React.useState(false);
+  const [showAllProduto, setShowAllProduto] = React.useState(false);
+  const [showAllFinanceiro, setShowAllFinanceiro] = React.useState(false);
 
   return (
     <div className="space-y-10" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
@@ -3113,8 +3149,8 @@ export function QualityIndicators() {
             <div className="flex gap-2 mt-3 pt-3 border-t" style={{ borderColor: '#EAEAEA' }}>
               <div className="text-center flex-1 min-w-0">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <Eye className="h-4 w-4" style={{ color: '#FFA801' }} />
-                  <div className="text-lg font-bold" style={{ color: '#FFA801', fontFamily: 'Inter, sans-serif' }}>
+                  <Eye className="h-4 w-4" style={{ color: '#B794F6' }} />
+                  <div className="text-lg font-bold" style={{ color: '#B794F6', fontFamily: 'Inter, sans-serif' }}>
                     {qualitySpecificMetrics.casosAndamento.revisao}
                   </div>
                 </div>
@@ -3122,8 +3158,8 @@ export function QualityIndicators() {
               </div>
               <div className="text-center flex-1 min-w-0">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <XCircle className="h-4 w-4" style={{ color: '#E17055' }} />
-                  <div className="text-lg font-bold" style={{ color: '#E17055', fontFamily: 'Inter, sans-serif' }}>
+                  <XCircle className="h-4 w-4" style={{ color: '#EF4444' }} />
+                  <div className="text-lg font-bold" style={{ color: '#EF4444', fontFamily: 'Inter, sans-serif' }}>
                     {qualitySpecificMetrics.casosAndamento.rejeitado}
                   </div>
                 </div>
@@ -3131,8 +3167,8 @@ export function QualityIndicators() {
               </div>
               <div className="text-center flex-1 min-w-0">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <RotateCcw className="h-4 w-4" style={{ color: '#6C5CE7' }} />
-                  <div className="text-lg font-bold" style={{ color: '#6C5CE7', fontFamily: 'Inter, sans-serif' }}>
+                  <CornerDownLeft className="h-4 w-4" style={{ color: '#F59E0B' }} />
+                  <div className="text-lg font-bold" style={{ color: '#F59E0B', fontFamily: 'Inter, sans-serif' }}>
                     {qualitySpecificMetrics.casosAndamento.retornado}
                   </div>
                 </div>
@@ -3140,8 +3176,8 @@ export function QualityIndicators() {
               </div>
               <div className="text-center flex-1 min-w-0">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <Shield className="h-4 w-4" style={{ color: '#0984E3' }} />
-                  <div className="text-lg font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>
+                  <ClipboardPenLine className="h-4 w-4" style={{ color: '#9333EA' }} />
+                  <div className="text-lg font-bold" style={{ color: '#9333EA', fontFamily: 'Inter, sans-serif' }}>
                     {qualitySpecificMetrics.casosAndamento.qualidade}
                   </div>
                 </div>
@@ -3149,8 +3185,8 @@ export function QualityIndicators() {
               </div>
               <div className="text-center flex-1 min-w-0">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <Loader className="h-4 w-4" style={{ color: '#00B894' }} />
-                  <div className="text-lg font-bold" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+                  <Clock className="h-4 w-4" style={{ color: '#F97316' }} />
+                  <div className="text-lg font-bold" style={{ color: '#F97316', fontFamily: 'Inter, sans-serif' }}>
                     {qualitySpecificMetrics.casosAndamento.emAnalise}
                   </div>
                 </div>
@@ -3226,15 +3262,15 @@ export function QualityIndicators() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Card Resumo Principal */}
+            {/* Card Total com Ressarcimento */}
             <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-xl p-6 border" style={{ borderColor: '#EAEAEA' }}>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-sm">
-                    <DollarSign className="h-6 w-6 text-white" />
+                  <div className="w-12 h-12 bg-[#00B894]/10 rounded-lg flex items-center justify-center shadow-sm">
+                    <DollarSign className="h-6 w-6 text-[#00B894]" />
                   </div>
-                  <div>
-                    <h3 className="text-sm font-medium" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
+                  <div className="flex items-center">
+                    <h3 className="text-sm font-semibold" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
                       Total com Ressarcimento
                     </h3>
                   </div>
@@ -3250,11 +3286,9 @@ export function QualityIndicators() {
                   </span> das queixas técnicas
                 </div>
               </div>
-            </div>
 
-            {/* Detalhamento por Tipo */}
-            <div>
-              <div className="bg-white rounded-xl p-6 border relative" style={{ borderColor: '#EAEAEA' }}>
+              {/* Detalhamento por Tipo */}
+              <div className="mt-6 pt-6 border-t" style={{ borderColor: '#EAEAEA' }}>
                 <h3 className="text-sm font-semibold mb-6" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
                   Distribuição por Tipo de Ressarcimento
                 </h3>
@@ -3262,9 +3296,9 @@ export function QualityIndicators() {
                 <div className="space-y-6">
                   {qualitySpecificMetrics.ressarcimento.por_tipo.map((item, index) => {
                     const colors = ['#00B894', '#0984E3'];
-                    const bgColors = ['rgba(0, 184, 148, 0.1)', 'rgba(9, 132, 227, 0.1)'];
-                    const color = colors[index % colors.length];
-                    const bgColor = bgColors[index % bgColors.length];
+                    const bgColors = item.tipo === 'Produto' ? '#FFF6EA' : 'rgba(9, 132, 227, 0.1)';
+                    const color = item.tipo === 'Produto' ? '#FFA726' : colors[index % colors.length];
+                    const bgColor = bgColors;
                     const tipoKey = item.tipo.toLowerCase() as 'produto' | 'financeiro';
                     const isHovered = hoveredTooltip === tipoKey;
                     
@@ -3300,7 +3334,7 @@ export function QualityIndicators() {
                         
                         {/* Barra de Progresso com Tooltip */}
                         <div 
-                          className="relative w-full h-4 bg-gray-100 rounded-full overflow-visible cursor-pointer"
+                          className="relative w-full h-[10px] bg-gray-100 rounded-full overflow-visible cursor-pointer"
                           onMouseEnter={() => setHoveredTooltip(tipoKey)}
                           onMouseLeave={() => setHoveredTooltip(null)}
                         >
@@ -3433,6 +3467,159 @@ export function QualityIndicators() {
                 </div>
               </div>
             </div>
+
+            {/* Card Evolução Mensal */}
+            <div className="bg-white rounded-xl p-6 border" style={{ borderColor: '#EAEAEA' }}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-[#0984E3]/10 rounded-lg flex items-center justify-center shadow-sm">
+                    <TrendingUp className="h-6 w-6 text-[#0984E3]" />
+                  </div>
+                  <div className="flex items-center">
+                    <h3 className="text-sm font-semibold" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
+                      Evolução Mensal
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="text-xs text-[#666] mb-1" style={{ fontFamily: 'Inter, sans-serif' }}>
+                      Últimos 12 meses
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs" style={{ color: '#00B894', fontFamily: 'Inter, sans-serif' }}>
+                    <TrendingUp className="h-3 w-3" />
+                    <span className="font-semibold">+{qualitySpecificMetrics.ressarcimento.evolucaoMensal[qualitySpecificMetrics.ressarcimento.evolucaoMensal.length - 1].variacao.toFixed(1)}%</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  {qualitySpecificMetrics.ressarcimento.evolucaoMensal.map((mes, index) => {
+                    const isLast = index === qualitySpecificMetrics.ressarcimento.evolucaoMensal.length - 1;
+                    const maxTotal = Math.max(...qualitySpecificMetrics.ressarcimento.evolucaoMensal.map(m => m.total));
+                    const widthPercent = (mes.total / maxTotal) * 100;
+                    const variacao = index > 0 
+                      ? ((mes.total - qualitySpecificMetrics.ressarcimento.evolucaoMensal[index - 1].total) / qualitySpecificMetrics.ressarcimento.evolucaoMensal[index - 1].total * 100)
+                      : 0;
+                    
+                    return (
+                      <div key={mes.mes} className="flex items-center gap-3">
+                        <div className="w-10 text-xs font-medium" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
+                          {mes.mes}
+                        </div>
+                        <div className="flex-1 relative">
+                          <div 
+                            className="w-full h-[10px] bg-gray-100 rounded-full overflow-visible cursor-pointer"
+                            onMouseEnter={() => setHoveredMes(mes.mes)}
+                            onMouseLeave={() => setHoveredMes(null)}
+                          >
+                            <div 
+                              className="h-full rounded-full transition-all duration-500"
+                              style={{ 
+                                width: `${widthPercent}%`,
+                                backgroundColor: '#48CAB1'
+                              }}
+                            />
+                            
+                            {/* Tooltip com informações de Produto e Financeiro */}
+                            {hoveredMes === mes.mes && (
+                              <div
+                                className="absolute z-50 bg-white rounded-lg shadow-xl border p-4 min-w-[200px]"
+                                style={{
+                                  left: '50%',
+                                  transform: 'translateX(-50%)',
+                                  bottom: 'calc(100% + 12px)',
+                                  borderColor: '#EAEAEA',
+                                  fontFamily: 'Inter, sans-serif'
+                                }}
+                                onMouseEnter={() => setHoveredMes(mes.mes)}
+                                onMouseLeave={() => setHoveredMes(null)}
+                              >
+                                <div className="text-xs font-semibold mb-3" style={{ color: '#333' }}>
+                                  {mes.mes} {new Date().getFullYear()}
+                                </div>
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <Package className="h-3 w-3" style={{ color: '#FFA726' }} />
+                                      <span className="text-xs" style={{ color: '#666' }}>Produto</span>
+                                    </div>
+                                    <div className="text-right">
+                                      <div className="text-xs font-bold" style={{ color: '#FFA726' }}>
+                                        {mes.produto}
+                                      </div>
+                                      <div className="text-xs" style={{ color: '#666' }}>
+                                        {mes.percentualProduto?.toFixed(1)}%
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <DollarSign className="h-3 w-3" style={{ color: '#0984E3' }} />
+                                      <span className="text-xs" style={{ color: '#666' }}>Financeiro</span>
+                                    </div>
+                                    <div className="text-right">
+                                      <div className="text-xs font-bold" style={{ color: '#0984E3' }}>
+                                        {mes.financeiro}
+                                      </div>
+                                      <div className="text-xs" style={{ color: '#666' }}>
+                                        {mes.percentualFinanceiro?.toFixed(1)}%
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="pt-2 mt-2 border-t" style={{ borderColor: '#EAEAEA' }}>
+                                  <div className="text-xs font-semibold" style={{ color: '#333' }}>
+                                    Total: {mes.total}
+                                  </div>
+                                </div>
+                                {/* Seta do tooltip */}
+                                <div
+                                  className="absolute left-1/2 transform -translate-x-1/2"
+                                  style={{
+                                    bottom: '-8px',
+                                    width: 0,
+                                    height: 0,
+                                    borderLeft: '8px solid transparent',
+                                    borderRight: '8px solid transparent',
+                                    borderTop: '8px solid white',
+                                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 min-w-[80px] justify-end">
+                          <span className="text-xs font-bold" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
+                            {mes.total}
+                          </span>
+                          {variacao !== 0 && (
+                            <span 
+                              className="text-xs font-semibold flex items-center gap-0.5"
+                              style={{ 
+                                color: variacao > 0 ? '#00B894' : '#EF4444',
+                                fontFamily: 'Inter, sans-serif'
+                              }}
+                            >
+                              {variacao > 0 ? (
+                                <TrendingUp className="h-3 w-3" />
+                              ) : (
+                                <TrendingDown className="h-3 w-3" />
+                              )}
+                              {Math.abs(variacao).toFixed(1)}%
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -3488,13 +3675,13 @@ export function QualityIndicators() {
                     </div>
                     
                     {/* Barra Container */}
-                    <div className="relative w-full h-3 bg-gradient-to-r from-[#F9FAFB] to-[#EAEAEA] overflow-hidden" style={{ borderRadius: '4px' }}>
+                    <div className="relative w-full h-[10px] bg-gradient-to-r from-[#F9FAFB] to-[#EAEAEA] overflow-hidden" style={{ borderRadius: '4px' }}>
                       {/* Barra de Progresso */}
                       <div
                         className="absolute top-0 left-0 h-full transition-all duration-300 group-hover:opacity-90"
                         style={{
                           width: `${item.percentual}%`,
-                          background: 'linear-gradient(90deg, #00B894 0%, #E0E0E0 100%)',
+                          backgroundColor: '#22C1A2',
                           borderRadius: '4px',
                           animation: `barFill 1s ease-out ${index * 0.1}s both`
                         }}
@@ -3557,13 +3744,13 @@ export function QualityIndicators() {
                     </div>
                     
                     {/* Barra Container */}
-                    <div className="relative w-full h-3 bg-gradient-to-r from-[#F9FAFB] to-[#EAEAEA] overflow-hidden" style={{ borderRadius: '4px' }}>
+                    <div className="relative w-full h-[10px] bg-gradient-to-r from-[#F9FAFB] to-[#EAEAEA] overflow-hidden" style={{ borderRadius: '4px' }}>
                       {/* Barra de Progresso */}
                       <div
                         className="absolute top-0 left-0 h-full transition-all duration-300 group-hover:opacity-90"
                         style={{
                           width: `${item.percentual}%`,
-                          background: 'linear-gradient(90deg, #00B894 0%, #E0E0E0 100%)',
+                          backgroundColor: '#22C1A2',
                           borderRadius: '4px',
                           animation: `barFill 1s ease-out ${index * 0.1}s both`
                         }}
@@ -3726,7 +3913,7 @@ export function QualityIndicators() {
               </div>
               <div className="text-center p-4 bg-white rounded-lg border" style={{ borderColor: '#EAEAEA' }}>
                 <div className="text-xs mb-1" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Acumulado</div>
-                <div className="text-xl font-bold" style={{ color: '#0984E3', fontFamily: 'Inter, sans-serif' }}>1,560</div>
+                <div className="text-xl font-bold" style={{ color: '#22C1A2', fontFamily: 'Inter, sans-serif' }}>1,560</div>
                 <div className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>no semestre</div>
               </div>
             </div>
@@ -3756,41 +3943,263 @@ export function QualityIndicators() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="bg-white rounded-xl p-6 border" style={{ borderColor: '#EAEAEA', borderRadius: '12px' }}>
-            <div className="space-y-3">
-              {produtosCasos.map((produto, index) => {
-                const rankColors = ['#00B894', '#0984E3', '#00B894'];
-                const rankColor = rankColors[index] || '#666';
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Coluna Esquerda - Produtos com Mais Queixas Técnicas */}
+            <div className="bg-white rounded-xl p-6 border" style={{ borderColor: '#EAEAEA', borderRadius: '12px' }}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
+                  Produtos com Mais Queixas Técnicas
+                </h3>
+                <button
+                  onClick={() => setShowAllQueixas(!showAllQueixas)}
+                  className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  {showAllQueixas ? '− Ver Menos' : '+ Ver Mais'}
+                </button>
+              </div>
+              <div className="space-y-3">
+                {/* Header do Ranking */}
+                <div className="flex items-center gap-3 mb-1">
+                  <div className="flex-shrink-0" style={{ width: '50px' }}>
+                    <div className="text-xs font-semibold text-[#666] uppercase tracking-wide" style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.5px' }}>
+                      Ranking
+                    </div>
+                  </div>
+                  <div className="flex-1"></div>
+                </div>
                 
-                return (
-                  <div key={produto.produto} className="flex items-center justify-between p-4 bg-white rounded-xl border hover:shadow-sm transition-all duration-200" style={{ borderColor: '#EAEAEA' }}>
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full" style={{ backgroundColor: `${rankColor}15` }}>
-                        <Package className="h-5 w-5" style={{ color: rankColor, opacity: 0.8 }} />
+                {produtosCasos.slice(0, showAllQueixas ? produtosCasos.length : 3).map((produto, index) => {
+                  const totalQueixas = produtosCasos.reduce((sum, p) => sum + p.queixaTecnica, 0);
+                  const percentual = ((produto.queixaTecnica / totalQueixas) * 100).toFixed(1);
+                  const barColor = '#00B894';
+                  
+                  return (
+                    <div key={produto.produto} className="flex items-center gap-3">
+                      {/* Número de Ranking */}
+                      <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '50px' }}>
+                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#0984E3] to-[#00B894] border border-gray-300 shadow-sm" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#333' }}>
+                          {index + 1}
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-3">
-                        <span className="text-xl font-bold min-w-[28px]" style={{ color: rankColor, fontFamily: 'Inter, sans-serif' }}>
-                          {index + 1}º
-                        </span>
-                        <div>
-                          <span className="font-medium" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
-                            {produto.produto}
-                          </span>
-                          <div className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
-                            {produto.queixaTecnica} queixas técnicas no mês
+                      
+                      {/* Card do Item */}
+                      <div className="flex-1">
+                        <div 
+                          className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md"
+                          style={{
+                            animation: `slideInUp 0.5s ease-out ${index * 0.08}s both`
+                          }}
+                        >
+                          {/* Header: Nome e Valores */}
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-sm text-[#333]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                {produto.produto}
+                              </span>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                              <span className="text-sm text-[#999]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                {produto.queixaTecnica} queixas técnicas
+                              </span>
+                              <span className="text-sm" style={{ fontFamily: 'Inter, sans-serif', color: barColor }}>
+                                {percentual}%
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {/* Barra de Progresso */}
+                          <div className="relative w-full h-[10px] bg-[#F0F0F0] rounded-full overflow-hidden">
+                            <div
+                              className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                              style={{
+                                width: `${percentual}%`,
+                                backgroundColor: barColor,
+                                animation: `barGrow 1s ease-out ${index * 0.08}s both`
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <span className="text-2xl font-bold" style={{ color: rankColor, fontFamily: 'Inter, sans-serif' }}>
-                        {produto.queixaTecnica}
-                      </span>
-                      <div className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>casos</div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Coluna Direita - Cards de Ressarcimento */}
+            <div className="grid grid-cols-1 gap-6">
+              {/* Card 1 - Produtos com Mais Ressarcimento - Tipo Produto */}
+              <Card className="bg-white border rounded-xl" style={{ borderColor: '#EAEAEA', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.5s both' }}>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 'bold', marginBottom: '8px' }}>
+                    Ressarcimentos de Produtos
+                  </CardTitle>
+                  
+                </div>
+                <button
+                  onClick={() => setShowAllProduto(!showAllProduto)}
+                  className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  {showAllProduto ? '− Ver Menos' : '+ Ver Mais'}
+                </button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {/* Header do Ranking */}
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="flex-shrink-0" style={{ width: '50px' }}>
+                      <div className="text-xs font-semibold text-[#666] uppercase tracking-wide" style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.5px' }}>
+                        Ranking
+                      </div>
                     </div>
+                    <div className="flex-1"></div>
                   </div>
-                );
-              })}
+                  
+                  {produtosMaisRessarcimentoProduto.slice(0, showAllProduto ? produtosMaisRessarcimentoProduto.length : 3).map((item, index) => {
+                    const barColor = '#FFA726';
+                    
+                    return (
+                      <div key={item.produto} className="flex items-center gap-3">
+                        {/* Número de Ranking */}
+                        <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '50px' }}>
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#0984E3] to-[#00B894] border border-gray-300 shadow-sm" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#333' }}>
+                            {index + 1}
+                          </div>
+                        </div>
+                        
+                        {/* Card do Item */}
+                        <div className="flex-1">
+                          <div 
+                            className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md"
+                            style={{
+                              animation: `slideInUp 0.5s ease-out ${index * 0.08}s both`
+                            }}
+                          >
+                            {/* Header: Nome e Valores */}
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center space-x-3">
+                                <span className="text-sm text-[#333]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                  {item.produto}
+                                </span>
+                              </div>
+                              <div className="flex items-center space-x-3">
+                                <span className="text-sm text-[#999]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                  {item.quantidade} ressarcimentos
+                                </span>
+                                <span className="text-sm" style={{ fontFamily: 'Inter, sans-serif', color: barColor }}>
+                                  {item.percentual}%
+                                </span>
+                              </div>
+                            </div>
+                            
+                            {/* Barra de Progresso */}
+                            <div className="relative w-full h-[10px] bg-[#F0F0F0] rounded-full overflow-hidden">
+                              <div
+                                className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                                style={{
+                                  width: `${item.percentual}%`,
+                                  backgroundColor: barColor,
+                                  animation: `barGrow 1s ease-out ${index * 0.08}s both`
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+
+              {/* Card 2 - Produtos com Mais Ressarcimento - Tipo Financeiro */}
+              <Card className="bg-white border rounded-xl" style={{ borderColor: '#EAEAEA', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.6s both' }}>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 'bold', marginBottom: '8px' }}>
+                    Ressarcimentos Financeiros
+                  </CardTitle>
+                  
+                </div>
+                <button
+                  onClick={() => setShowAllFinanceiro(!showAllFinanceiro)}
+                  className="px-4 py-2 text-sm text-[#00B894] hover:bg-[#00B894]/5 rounded-lg transition-colors duration-200"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  {showAllFinanceiro ? '− Ver Menos' : '+ Ver Mais'}
+                </button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {/* Header do Ranking */}
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="flex-shrink-0" style={{ width: '50px' }}>
+                      <div className="text-xs font-semibold text-[#666] uppercase tracking-wide" style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', letterSpacing: '0.5px' }}>
+                        Ranking
+                      </div>
+                    </div>
+                    <div className="flex-1"></div>
+                  </div>
+                  
+                  {produtosMaisRessarcimentoFinanceiro.slice(0, showAllFinanceiro ? produtosMaisRessarcimentoFinanceiro.length : 3).map((item, index) => {
+                    const barColor = '#0984E3';
+                    
+                    return (
+                      <div key={item.produto} className="flex items-center gap-3">
+                        {/* Número de Ranking */}
+                        <div className="flex-shrink-0 flex items-center justify-center" style={{ width: '50px' }}>
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#0984E3] to-[#00B894] border border-gray-300 shadow-sm" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#333' }}>
+                            {index + 1}
+                          </div>
+                        </div>
+                        
+                        {/* Card do Item */}
+                        <div className="flex-1">
+                          <div 
+                            className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md"
+                            style={{
+                              animation: `slideInUp 0.5s ease-out ${index * 0.08}s both`
+                            }}
+                          >
+                            {/* Header: Nome e Valores */}
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center space-x-3">
+                                <span className="text-sm text-[#333]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                  {item.produto}
+                                </span>
+                              </div>
+                              <div className="flex items-center space-x-3">
+                                <span className="text-sm text-[#999]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                                  {item.quantidade} ressarcimentos
+                                </span>
+                                <span className="text-sm" style={{ fontFamily: 'Inter, sans-serif', color: barColor }}>
+                                  {item.percentual}%
+                                </span>
+                              </div>
+                            </div>
+                            
+                            {/* Barra de Progresso */}
+                            <div className="relative w-full h-[10px] bg-[#F0F0F0] rounded-full overflow-hidden">
+                              <div
+                                className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
+                                style={{
+                                  width: `${item.percentual}%`,
+                                  backgroundColor: barColor,
+                                  animation: `barGrow 1s ease-out ${index * 0.08}s both`
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
             </div>
           </div>
         </CardContent>
