@@ -2826,28 +2826,35 @@ function ProductComplaintAnalysis() {
   
   const produtos = qualitySpecificMetrics.produtoMotivoAnalise.produtos;
   
-  // Calcular intensidade e cor com gradiente verde → amarelo → vermelho
+  // Calcular intensidade e cor com gradiente verde → amarelo → vermelho (degradê contínuo)
   const calcularCorIntensidade = (valor: number, maxValor: number) => {
     if (valor === 0) return '#F5F5F5';
     
-    const intensidade = valor / maxValor;
+    const intensidade = Math.min(valor / maxValor, 1);
     
-    // Verde: #00B894, Amarelo: #FDCB6E, Vermelho: #FF7675
+    // Cores base do degradê:
+    // Verde baixo: #00B894 (rgb(0, 184, 148))
+    // Amarelo médio: #FDCB6E (rgb(253, 203, 110))
+    // Vermelho alto: #FF7675 (rgb(255, 118, 117))
+    
+    // Interpolação linear contínua entre as três cores
+    let r, g, b;
+    
     if (intensidade <= 0.5) {
-      // Verde para Amarelo
-      const t = intensidade * 2;
-      const r = Math.round(0 + (253 - 0) * t);
-      const g = Math.round(184 + (203 - 184) * t);
-      const b = Math.round(148 + (110 - 148) * t);
-      return `rgb(${r}, ${g}, ${b})`;
+      // Primeira metade (0-50%): Verde → Amarelo
+      const t = intensidade * 2; // t vai de 0 a 1
+      r = Math.round(0 + (253 - 0) * t);
+      g = Math.round(184 + (203 - 184) * t);
+      b = Math.round(148 + (110 - 148) * t);
     } else {
-      // Amarelo para Vermelho
-      const t = (intensidade - 0.5) * 2;
-      const r = Math.round(253 + (255 - 253) * t);
-      const g = Math.round(203 + (118 - 203) * t);
-      const b = Math.round(110 + (117 - 110) * t);
-      return `rgb(${r}, ${g}, ${b})`;
+      // Segunda metade (50-100%): Amarelo → Vermelho
+      const t = (intensidade - 0.5) * 2; // t vai de 0 a 1
+      r = Math.round(253 + (255 - 253) * t);
+      g = Math.round(203 + (118 - 203) * t);
+      b = Math.round(110 + (117 - 110) * t);
     }
+    
+    return `rgb(${r}, ${g}, ${b})`;
   };
   
   const maxValor = Math.max(...data.matriz.flat());
@@ -2863,10 +2870,10 @@ function ProductComplaintAnalysis() {
           Compare os principais produtos e motivos de falha — visão geral e detalhamento por tipo de embalagem
         </CardDescription>
       </CardHeader>
-      <CardContent style={{ padding: '24px' }}>
-        <div className="bg-white rounded-xl border" style={{ borderRadius: '12px', borderColor: '#EAEAEA', padding: '24px' }}>
+      <CardContent className="p-4 md:p-6">
+        <div className="bg-white rounded-xl border" style={{ borderRadius: '12px', borderColor: '#EAEAEA', padding: '24px', minHeight: '600px' }}>
           {/* Abas de Filtro */}
-          <div className="flex items-center gap-3 mb-6 p-1 bg-gray-100/50 rounded-lg w-fit">
+          <div className="flex items-center gap-2 md:gap-3 mb-6 p-1 bg-gray-100/50 rounded-lg w-full md:w-fit flex-wrap">
             <button
               onClick={() => setSelectedFilter('todos')}
               className={`px-4 py-2 rounded-md text-sm transition-all duration-200 ${
@@ -2903,93 +2910,117 @@ function ProductComplaintAnalysis() {
           </div>
 
           {/* Heatmap Grid */}
-          <div className="overflow-x-auto">
-            <div className="inline-block min-w-full">
-              {/* Header com nomes dos produtos */}
-              <div className="flex mb-2">
-                <div className="w-52 flex-shrink-0"></div>
-                <div className="flex gap-2 flex-1">
+          <div className="overflow-x-auto -mx-4 px-4">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="text-left pl-4 pb-4" style={{ width: '120px', minWidth: '120px', height: '80px', verticalAlign: 'bottom' }}></th>
                   {produtos.map((produto, idx) => (
-                    <div 
-                      key={idx} 
-                      className="flex-1 min-w-[90px] text-center px-2"
+                    <th
+                      key={idx}
+                      className="text-left pb-4 relative"
+                      style={{ 
+                        width: '80px',
+                        minWidth: '80px',
+                        paddingLeft: '6px',
+                        paddingRight: '6px',
+                        height: '80px',
+                        verticalAlign: 'bottom'
+                      }}
                       onMouseEnter={() => setHoveredCol(idx)}
                       onMouseLeave={() => setHoveredCol(null)}
                     >
                       <div 
-                        className={`text-xs text-[#333] transform -rotate-45 origin-left whitespace-nowrap transition-all duration-200 ${
+                        className={`text-xs text-[#333] whitespace-nowrap transition-all duration-200 ${
                           hoveredCol === idx ? 'font-bold' : ''
                         }`}
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '12px',
-                          marginLeft: '45px',
-                          marginBottom: '65px'
+                          fontSize: '10px',
+                          transform: 'rotate(-45deg)',
+                          transformOrigin: 'left bottom',
+                          position: 'absolute',
+                          left: '6px',
+                          bottom: '10px',
+                          whiteSpace: 'nowrap'
                         }}
                       >
                         {produto}
                       </div>
-                    </div>
+                    </th>
                   ))}
-                </div>
-              </div>
-
-              {/* Grid de células do heatmap */}
-              <div className="space-y-2">
+                </tr>
+              </thead>
+              <tbody>
                 {data.motivos.map((motivo, rowIdx) => (
-                  <div 
-                    key={rowIdx} 
-                    className="flex items-center gap-2"
+                  <tr
+                    key={rowIdx}
                     onMouseEnter={() => setHoveredRow(rowIdx)}
                     onMouseLeave={() => setHoveredRow(null)}
                   >
                     {/* Label do motivo */}
-                    <div 
-                      className={`w-52 flex-shrink-0 text-right pr-4 text-[#333] transition-all duration-200 ${
+                    <td 
+                      className={`text-left pl-4 text-[#333] transition-all duration-200 ${
                         hoveredRow === rowIdx ? 'font-bold' : ''
                       }`}
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif', 
+                        fontSize: '12px', 
+                        lineHeight: '1.5', 
+                        verticalAlign: 'middle',
+                        paddingTop: '6px',
+                        paddingBottom: '6px',
+                        width: '120px',
+                        minWidth: '120px',
+                        maxWidth: '120px'
+                      }}
                     >
                       {motivo}
-                    </div>
+                    </td>
                     
                     {/* Células */}
-                    <div className="flex gap-2 flex-1">
-                      {produtos.map((produto, colIdx) => {
-                        const valor = data.matriz[colIdx][rowIdx];
-                        const intensidade = valor / maxValor;
-                        const corCelula = calcularCorIntensidade(valor, maxValor);
-                        const percentual = ((valor / total) * 100).toFixed(1);
-                        const isHighlighted = hoveredRow === rowIdx || hoveredCol === colIdx;
-                        const isMaxValue = valor === maxValor;
-                        
-                        return (
+                    {produtos.map((produto, colIdx) => {
+                      const valor = data.matriz[colIdx][rowIdx];
+                      const intensidade = valor / maxValor;
+                      const corCelula = calcularCorIntensidade(valor, maxValor);
+                      const percentual = ((valor / total) * 100).toFixed(1);
+                      const isMaxValue = valor === maxValor;
+                      
+                      return (
+                        <td
+                          key={colIdx}
+                          className="group relative rounded-md cursor-pointer text-center align-middle"
+                          style={{ 
+                            padding: '6px',
+                            verticalAlign: 'middle'
+                          }}
+                        >
                           <div
-                            key={colIdx}
-                            className={`group relative flex-1 min-w-[90px] rounded-lg cursor-pointer transition-all duration-200 ${
-                              isHighlighted ? 'ring-2 ring-[#00B894] scale-105 z-10' : ''
-                            }`}
+                            className="w-full h-full rounded-md relative"
                             style={{ 
                               backgroundColor: corCelula,
-                              height: '52px',
-                              boxShadow: isHighlighted ? '0 4px 12px rgba(0, 184, 148, 0.3)' : '0 1px 3px rgba(0,0,0,0.1)',
-                              border: isMaxValue ? '2px solid rgba(255, 118, 117, 0.4)' : 'none'
+                              height: '36px',
+                              width: '100%',
+                              minHeight: '36px',
+                              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                              border: isMaxValue ? '2px solid rgba(255, 118, 117, 0.4)' : 'none',
+                              position: 'relative'
                             }}
                           >
                             {/* Valor na célula */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <span 
-                                className="font-medium"
-                                style={{ 
-                                  color: intensidade > 0.6 ? '#fff' : '#222',
-                                  fontFamily: 'Inter, sans-serif',
-                                  fontSize: '14px',
-                                  textShadow: intensidade > 0.6 ? 'none' : '0 1px 2px rgba(255,255,255,0.8)'
-                                }}
-                              >
-                                {valor}
-                              </span>
-                            </div>
+                            <span 
+                              className="absolute inset-0 flex items-center justify-center font-bold z-10"
+                              style={{ 
+                                color: intensidade > 0.6 ? '#fff' : '#222',
+                                fontFamily: 'Inter, sans-serif',
+                                fontSize: '11px',
+                                fontWeight: 'bold',
+                                textShadow: intensidade > 0.6 ? 'none' : '0 1px 2px rgba(255,255,255,0.8)',
+                                textAlign: 'center'
+                              }}
+                            >
+                              {valor}
+                            </span>
                             
                             {/* Tooltip */}
                             <div 
@@ -2998,9 +3029,6 @@ function ProductComplaintAnalysis() {
                             >
                               <div className="text-xs font-semibold text-[#333] mb-1">
                                 {produto}
-                              </div>
-                              <div className="text-xs text-[#666] mb-1">
-                                {motivo}
                               </div>
                               <div className="text-xs font-semibold text-[#00B894]">
                                 {valor} casos ({percentual}%)
@@ -3015,31 +3043,31 @@ function ProductComplaintAnalysis() {
                               />
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
                 ))}
-              </div>
-            </div>
+              </tbody>
+            </table>
           </div>
 
           {/* Legenda de Intensidade */}
-          <div className="mt-8 pt-6 border-t" style={{ borderColor: '#EAEAEA' }}>
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-medium" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
+          <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t" style={{ borderColor: '#EAEAEA' }}>
+            <div className="flex items-center justify-between mb-3 md:mb-4">
+              <span className="text-xs md:text-sm font-medium" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
                 Escala de Intensidade
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3 flex-wrap">
               <span className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>
                 Menor
               </span>
-              <div className="flex gap-1 flex-1">
+              <div className="flex gap-0.5 md:gap-1 flex-1 min-w-[200px]">
                 {[0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1.0].map((intensidade, idx) => (
                   <div
                     key={idx}
-                    className="flex-1 h-6 rounded"
+                    className="flex-1 h-[10px] rounded"
                     style={{ backgroundColor: calcularCorIntensidade(intensidade * maxValor, maxValor) }}
                   />
                 ))}
