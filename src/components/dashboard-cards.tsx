@@ -3943,8 +3943,8 @@ export function QualityIndicators() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Coluna Esquerda - Produtos com Mais Queixas Técnicas */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Coluna 1 - Produtos com Mais Queixas Técnicas */}
             <div className="bg-white rounded-xl p-6 border" style={{ borderColor: '#EAEAEA', borderRadius: '12px' }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
@@ -4027,16 +4027,16 @@ export function QualityIndicators() {
               </div>
             </div>
 
-            {/* Coluna Direita - Cards de Ressarcimento */}
-            <div className="grid grid-cols-1 gap-6">
-              {/* Card 1 - Produtos com Mais Ressarcimento - Tipo Produto */}
-              <Card className="bg-white border rounded-xl" style={{ borderColor: '#EAEAEA', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.5s both' }}>
+            {/* Coluna 2 - Produtos com Mais Ressarcimento - Tipo Produto */}
+            <Card className="bg-white border rounded-xl" style={{ borderColor: '#EAEAEA', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.5s both' }}>
               <CardHeader className="flex flex-row items-center justify-between">
-                <div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#FFF6EA' }}>
+                    <Package className="h-5 w-5" style={{ color: '#FFA726' }} />
+                  </div>
                   <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 'bold', marginBottom: '8px' }}>
                     Ressarcimentos de Produtos
                   </CardTitle>
-                  
                 </div>
                 <button
                   onClick={() => setShowAllProduto(!showAllProduto)}
@@ -4115,14 +4115,16 @@ export function QualityIndicators() {
               </CardContent>
             </Card>
 
-              {/* Card 2 - Produtos com Mais Ressarcimento - Tipo Financeiro */}
-              <Card className="bg-white border rounded-xl" style={{ borderColor: '#EAEAEA', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.6s both' }}>
+            {/* Coluna 3 - Produtos com Mais Ressarcimento - Tipo Financeiro */}
+            <Card className="bg-white border rounded-xl" style={{ borderColor: '#EAEAEA', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)', animation: 'fadeInUp 0.6s ease-out 0.6s both' }}>
               <CardHeader className="flex flex-row items-center justify-between">
-                <div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(9, 132, 227, 0.1)' }}>
+                    <DollarSign className="h-5 w-5" style={{ color: '#0984E3' }} />
+                  </div>
                   <CardTitle style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 'bold', marginBottom: '8px' }}>
                     Ressarcimentos Financeiros
                   </CardTitle>
-                  
                 </div>
                 <button
                   onClick={() => setShowAllFinanceiro(!showAllFinanceiro)}
@@ -4200,7 +4202,6 @@ export function QualityIndicators() {
                 </div>
               </CardContent>
             </Card>
-            </div>
           </div>
         </CardContent>
       </Card>
