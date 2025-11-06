@@ -2817,6 +2817,7 @@ function ProductComplaintAnalysis() {
   const [selectedFilter, setSelectedFilter] = React.useState<'todos' | 'interna' | 'externa'>('todos');
   const [hoveredRow, setHoveredRow] = React.useState<number | null>(null);
   const [hoveredCol, setHoveredCol] = React.useState<number | null>(null);
+  const [hoveredCell, setHoveredCell] = React.useState<{row: number, col: number} | null>(null);
   
   const data = selectedFilter === 'todos' 
     ? qualitySpecificMetrics.produtoMotivoAnalise.todosmotivos
@@ -2825,6 +2826,19 @@ function ProductComplaintAnalysis() {
     : qualitySpecificMetrics.produtoMotivoAnalise.embalagemExterna;
   
   const produtos = qualitySpecificMetrics.produtoMotivoAnalise.produtos;
+  
+  // Função para gerar ID do produto (ex: P001, A002, etc.)
+  const gerarIdProduto = (produto: string, index: number) => {
+    const primeiraLetra = produto.charAt(0).toUpperCase();
+    const numero = String(index + 1).padStart(3, '0');
+    return `${primeiraLetra}${numero}`;
+  };
+  
+  // Mapeamento de produtos para IDs
+  const produtosComIds = produtos.map((produto, idx) => ({
+    nome: produto,
+    id: gerarIdProduto(produto, idx)
+  }));
   
   // Calcular valor mínimo e máximo para normalização
   const valores = data.matriz.flat().filter(v => v > 0);
@@ -2895,9 +2909,9 @@ function ProductComplaintAnalysis() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-4 md:p-6">
-        <div className="bg-white rounded-xl border" style={{ borderRadius: '12px', borderColor: '#EAEAEA', padding: '24px', minHeight: '600px' }}>
+        <div className="bg-white rounded-xl border" style={{ borderRadius: '12px', borderColor: '#EAEAEA', padding: '24px', minHeight: '600px', position: 'relative' }}>
           {/* Abas de Filtro */}
-          <div className="flex items-center gap-2 md:gap-3 mb-6 p-1 bg-gray-100/50 rounded-lg w-full md:w-fit flex-wrap">
+          <div className="flex items-center gap-2 md:gap-3 mb-6 p-1 bg-gray-100/50 rounded-lg w-full md:w-fit flex-wrap" style={{ position: 'relative', zIndex: 1 }}>
             <button
               onClick={() => setSelectedFilter('todos')}
               className={`px-4 py-2 rounded-md text-sm transition-all duration-200 ${
@@ -2935,47 +2949,68 @@ function ProductComplaintAnalysis() {
 
           {/* Heatmap Grid */}
           <div className="overflow-x-auto -mx-4 px-4">
-            <table className="w-full border-collapse">
-              <thead>
+            <table className="w-full border-collapse" style={{ position: 'relative' }}>
+              <thead style={{ position: 'relative', zIndex: 1000 }}>
                 <tr>
-                  <th className="text-left pl-4 pb-4" style={{ width: '120px', minWidth: '120px', height: '80px', verticalAlign: 'bottom' }}></th>
-                  {produtos.map((produto, idx) => (
+                  <th className="text-left pl-4" style={{ width: '120px', minWidth: '120px', padding: '6px', verticalAlign: 'middle' }}></th>
+                  {produtosComIds.map((produtoInfo, idx) => (
                     <th
                       key={idx}
-                      className="text-left pb-4 relative"
+                      className={`text-center relative group ${hoveredCol === idx ? 'z-[10000]' : ''}`}
                       style={{ 
                         width: '80px',
                         minWidth: '80px',
-                        paddingLeft: '6px',
-                        paddingRight: '6px',
-                        height: '80px',
-                        verticalAlign: 'bottom'
+                        padding: '6px',
+                        verticalAlign: 'middle',
+                        position: 'relative'
                       }}
                       onMouseEnter={() => setHoveredCol(idx)}
                       onMouseLeave={() => setHoveredCol(null)}
                     >
-                      <div 
-                        className={`text-xs text-[#333] whitespace-nowrap transition-all duration-200 ${
-                          hoveredCol === idx ? 'font-bold' : ''
-                        }`}
+                      <div
+                        className="w-full h-full rounded-md relative flex items-center justify-center"
                         style={{ 
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '10px',
-                          transform: 'rotate(-45deg)',
-                          transformOrigin: 'left bottom',
-                          position: 'absolute',
-                          left: '6px',
-                          bottom: '10px',
-                          whiteSpace: 'nowrap'
+                          backgroundColor: '#F9FAFB',
+                          height: '36px',
+                          width: '100%',
+                          minHeight: '36px',
+                          border: '1px solid #E5E7EB',
+                          position: 'relative'
                         }}
                       >
-                        {produto}
+                        <div 
+                          className={`text-[#333] whitespace-nowrap transition-all duration-200 ${
+                            hoveredCol === idx ? 'font-bold' : ''
+                          }`}
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '13px',
+                            whiteSpace: 'nowrap',
+                            cursor: 'help',
+                            textAlign: 'center',
+                            zIndex: 10,
+                            position: 'relative'
+                          }}
+                        >
+                          {produtoInfo.id}
+                        </div>
+                        {/* Tooltip */}
+                        <div 
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 bg-white text-gray-800 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-lg border border-gray-300"
+                          style={{ fontFamily: 'Inter, sans-serif', zIndex: 99999 }}
+                        >
+                          {produtoInfo.nome}
+                          <div 
+                            className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-white"
+                            style={{ marginBottom: '-1px', filter: 'drop-shadow(0 -1px 1px rgba(0,0,0,0.1))' }}
+                          />
+                        </div>
                       </div>
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody style={{ position: 'relative' }}>
                 {data.motivos.map((motivo, rowIdx) => (
                   <tr
                     key={rowIdx}
@@ -3010,14 +3045,20 @@ function ProductComplaintAnalysis() {
                       const percentual = ((valor / total) * 100).toFixed(1);
                       const isMaxValue = valor === maxValor;
                       
+                      const isCellHovered = hoveredCell?.row === rowIdx && hoveredCell?.col === colIdx;
+                      
                       return (
                         <td
                           key={colIdx}
                           className="group relative rounded-md cursor-pointer text-center align-middle"
                           style={{ 
                             padding: '6px',
-                            verticalAlign: 'middle'
+                            verticalAlign: 'middle',
+                            position: 'relative',
+                            zIndex: isCellHovered ? 10001 : 1
                           }}
+                          onMouseEnter={() => setHoveredCell({ row: rowIdx, col: colIdx })}
+                          onMouseLeave={() => setHoveredCell(null)}
                         >
                           <div
                             className="w-full h-full rounded-md relative"
@@ -3028,7 +3069,8 @@ function ProductComplaintAnalysis() {
                               minHeight: '36px',
                               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                               border: isMaxValue ? '2px solid rgba(255, 118, 117, 0.4)' : '1px solid #D1D5DB',
-                              position: 'relative'
+                              position: 'relative',
+                              zIndex: isCellHovered ? 10002 : 'auto'
                             }}
                           >
                             {/* Valor na célula */}
@@ -3048,8 +3090,8 @@ function ProductComplaintAnalysis() {
                             
                             {/* Tooltip */}
                             <div 
-                              className="absolute -top-28 left-1/2 -translate-x-1/2 px-4 py-3 bg-white rounded-lg shadow-xl border border-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 whitespace-nowrap"
-                              style={{ fontFamily: 'Inter, sans-serif' }}
+                              className="absolute -top-28 left-1/2 -translate-x-1/2 px-4 py-3 bg-white rounded-lg shadow-xl border border-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+                              style={{ fontFamily: 'Inter, sans-serif', zIndex: 99999 }}
                             >
                               <div className="text-xs font-semibold text-[#333] mb-1">
                                 {produto}
@@ -3074,6 +3116,31 @@ function ProductComplaintAnalysis() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Legenda de Produtos */}
+          <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t" style={{ borderColor: '#EAEAEA' }}>
+            <div className="flex items-center justify-between mb-3 md:mb-4">
+              <span className="text-xs md:text-sm font-medium" style={{ color: '#333', fontFamily: 'Inter, sans-serif' }}>
+                Legenda de Produtos
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+              {produtosComIds.map((produtoInfo, idx) => (
+                <div 
+                  key={idx} 
+                  className="inline-flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md border border-gray-200"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  <span className="text-xs font-semibold px-2 py-1 bg-white rounded border border-gray-300" style={{ color: '#333' }}>
+                    {produtoInfo.id}
+                  </span>
+                  <span className="text-xs" style={{ color: '#666' }}>
+                    {produtoInfo.nome}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Legenda de Intensidade */}
