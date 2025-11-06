@@ -2826,38 +2826,62 @@ function ProductComplaintAnalysis() {
   
   const produtos = qualitySpecificMetrics.produtoMotivoAnalise.produtos;
   
-  // Calcular intensidade e cor com gradiente verde → amarelo → vermelho (degradê contínuo)
-  const calcularCorIntensidade = (valor: number, maxValor: number) => {
-    if (valor === 0) return '#F5F5F5';
+  // Calcular valor mínimo e máximo para normalização
+  const valores = data.matriz.flat().filter(v => v > 0);
+  const minValor = valores.length > 0 ? Math.min(...valores) : 0;
+  const maxValor = Math.max(...data.matriz.flat());
+  
+  // Níveis de intensidade discretos da legenda
+  const niveisIntensidade = [0.1, 0.4, 0.7, 0.85, 1.0];
+  
+  // Calcular as cores específicas para cada nível de intensidade
+  const calcularCorPorNivel = (nivelIntensidade: number) => {
+    const rInicial = 242;
+    const gInicial = 255;
+    const bInicial = 252;
     
-    const intensidade = Math.min(valor / maxValor, 1);
+    const rFinal = 13;
+    const gFinal = 148;
+    const bFinal = 136;
     
-    // Cores base do degradê:
-    // Verde baixo: #00B894 (rgb(0, 184, 148))
-    // Amarelo médio: #FDCB6E (rgb(253, 203, 110))
-    // Vermelho alto: #FF7675 (rgb(255, 118, 117))
+    // Interpolação não-linear (exponencial) para aumentar a diferença de intensidade
+    const intensidadeAjustada = Math.pow(nivelIntensidade, 1.8);
     
-    // Interpolação linear contínua entre as três cores
-    let r, g, b;
-    
-    if (intensidade <= 0.5) {
-      // Primeira metade (0-50%): Verde → Amarelo
-      const t = intensidade * 2; // t vai de 0 a 1
-      r = Math.round(0 + (253 - 0) * t);
-      g = Math.round(184 + (203 - 184) * t);
-      b = Math.round(148 + (110 - 148) * t);
-    } else {
-      // Segunda metade (50-100%): Amarelo → Vermelho
-      const t = (intensidade - 0.5) * 2; // t vai de 0 a 1
-      r = Math.round(253 + (255 - 253) * t);
-      g = Math.round(203 + (118 - 203) * t);
-      b = Math.round(110 + (117 - 110) * t);
-    }
+    // Interpolação baseada na intensidade ajustada (não-linear)
+    const r = Math.round(rInicial + (rFinal - rInicial) * intensidadeAjustada);
+    const g = Math.round(gInicial + (gFinal - gInicial) * intensidadeAjustada);
+    const b = Math.round(bInicial + (bFinal - bInicial) * intensidadeAjustada);
     
     return `rgb(${r}, ${g}, ${b})`;
   };
   
-  const maxValor = Math.max(...data.matriz.flat());
+  // Gerar as 5 cores discretas baseadas nos níveis da legenda
+  const coresDiscretas = niveisIntensidade.map(nivel => calcularCorPorNivel(nivel));
+  
+  // Função para obter a cor baseada no valor, usando apenas as cores discretas
+  const calcularCorIntensidade = (valor: number, minVal: number, maxVal: number) => {
+    if (valor === 0) return '#F5F5F5';
+    
+    // Normalizar o valor entre min e max (0 a 1)
+    // Se minVal === maxVal, todos os valores têm a mesma cor (cor primária)
+    const intensidade = minVal === maxVal ? 0 : Math.min((valor - minVal) / (maxVal - minVal), 1);
+    
+    // Encontrar o nível de intensidade mais próximo
+    let nivelMaisProximo = niveisIntensidade[0];
+    let menorDiferenca = Math.abs(intensidade - niveisIntensidade[0]);
+    
+    for (const nivel of niveisIntensidade) {
+      const diferenca = Math.abs(intensidade - nivel);
+      if (diferenca < menorDiferenca) {
+        menorDiferenca = diferenca;
+        nivelMaisProximo = nivel;
+      }
+    }
+    
+    // Retornar a cor correspondente ao nível mais próximo
+    const indiceNivel = niveisIntensidade.indexOf(nivelMaisProximo);
+    return coresDiscretas[indiceNivel];
+  };
   const total = data.matriz.reduce((sum, row) => sum + row.reduce((a, b) => a + b, 0), 0);
   
   return (
@@ -2981,8 +3005,8 @@ function ProductComplaintAnalysis() {
                     {/* Células */}
                     {produtos.map((produto, colIdx) => {
                       const valor = data.matriz[colIdx][rowIdx];
-                      const intensidade = valor / maxValor;
-                      const corCelula = calcularCorIntensidade(valor, maxValor);
+                      const intensidade = minValor === maxValor ? 0 : (valor - minValor) / (maxValor - minValor);
+                      const corCelula = calcularCorIntensidade(valor, minValor, maxValor);
                       const percentual = ((valor / total) * 100).toFixed(1);
                       const isMaxValue = valor === maxValor;
                       
@@ -3003,7 +3027,7 @@ function ProductComplaintAnalysis() {
                               width: '100%',
                               minHeight: '36px',
                               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                              border: isMaxValue ? '2px solid rgba(255, 118, 117, 0.4)' : 'none',
+                              border: isMaxValue ? '2px solid rgba(255, 118, 117, 0.4)' : '1px solid #D1D5DB',
                               position: 'relative'
                             }}
                           >
@@ -3011,11 +3035,11 @@ function ProductComplaintAnalysis() {
                             <span 
                               className="absolute inset-0 flex items-center justify-center font-bold z-10"
                               style={{ 
-                                color: intensidade > 0.6 ? '#fff' : '#222',
+                                color: '#333',
                                 fontFamily: 'Inter, sans-serif',
                                 fontSize: '11px',
                                 fontWeight: 'bold',
-                                textShadow: intensidade > 0.6 ? 'none' : '0 1px 2px rgba(255,255,255,0.8)',
+                                textShadow: '0 1px 2px rgba(255,255,255,0.8)',
                                 textAlign: 'center'
                               }}
                             >
@@ -3064,11 +3088,11 @@ function ProductComplaintAnalysis() {
                 Menor
               </span>
               <div className="flex gap-0.5 md:gap-1 flex-1 min-w-[200px]">
-                {[0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1.0].map((intensidade, idx) => (
+                {coresDiscretas.map((cor, idx) => (
                   <div
                     key={idx}
                     className="flex-1 h-[10px] rounded"
-                    style={{ backgroundColor: calcularCorIntensidade(intensidade * maxValor, maxValor) }}
+                    style={{ backgroundColor: cor }}
                   />
                 ))}
               </div>
@@ -3078,15 +3102,15 @@ function ProductComplaintAnalysis() {
             </div>
             <div className="flex items-center justify-center gap-6 mt-4">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded" style={{ backgroundColor: '#00B894' }}></div>
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: coresDiscretas[0], border: '1px solid #D1D5DB' }}></div>
                 <span className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Baixo</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded" style={{ backgroundColor: '#FDCB6E' }}></div>
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: coresDiscretas[2], border: '1px solid #D1D5DB' }}></div>
                 <span className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Médio</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded" style={{ backgroundColor: '#FF7675' }}></div>
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: coresDiscretas[4], border: '1px solid #D1D5DB' }}></div>
                 <span className="text-xs" style={{ color: '#666', fontFamily: 'Inter, sans-serif' }}>Alto</span>
               </div>
             </div>
